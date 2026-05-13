@@ -20,8 +20,10 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <pooled.jms.version>3.1.7</pooled.jms.version>
         <hsqldb.version>2.7.4</hsqldb.version>
         <lombok.version>1.18.46</lombok.version>
+        <toxiproxy-java.version>2.1.11</toxiproxy-java.version>
     </properties>
 
     <dependencies>
@@ -29,6 +31,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-batch</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.messaginghub</groupId>
+            <artifactId>pooled-jms</artifactId>
+            <version>${pooled.jms.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -40,6 +54,11 @@
             <artifactId>hsqldb</artifactId>
             <scope>runtime</scope>
             <version>${hsqldb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.rekawek.toxiproxy</groupId>
+            <artifactId>toxiproxy-java</artifactId>
+            <version>${toxiproxy-java.version}</version>
         </dependency>
     </dependencies>
 

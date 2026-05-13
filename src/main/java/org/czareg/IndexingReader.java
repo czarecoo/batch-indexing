@@ -27,9 +27,9 @@ public class IndexingReader extends AbstractPagingItemReader<DbEvent> {
 
         int page = getPage();
 
-        if (page >= 10) {
-            return;
-        }
+//        if (page >= 10) {
+//            return;
+//        }
         int pageSize = getPageSize();
         int from = page * pageSize;
         int to = from + pageSize;
