@@ -27,12 +27,13 @@ public class IndexingReader extends AbstractPagingItemReader<DbEvent> {
 
         int page = getPage();
 
-//        if (page >= 10) {
-//            return;
-//        }
         int pageSize = getPageSize();
         int from = page * pageSize;
         int to = from + pageSize;
+
+        if(from>=10_000){
+            return;
+        }
         List<DbEvent> customers = LongStream.range(from, to).mapToObj(DbEvent::new).toList();
 
         if (!CollectionUtils.isEmpty(customers)) {

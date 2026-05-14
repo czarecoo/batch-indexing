@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ToxiProxyStartChaos {
+public class ToxiProxyStartChaosOriginal {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -27,40 +27,23 @@ public class ToxiProxyStartChaos {
 
         while (true) {
 
-            // 1. FULL OUTAGE
+            proxy.toxics().bandwidth("bandwidth-toxic", ToxicDirection.DOWNSTREAM, 0);
+            sleep("🟠 BANDWIDTH LIMIT", rand());
+            clear(proxy);
+
+            sleep("KEEP UP", rand());
+
             proxy.disable();
             sleep("🔴 FULL OUTAGE", rand());
             proxy.enable();
 
-            // 2. TIMEOUT toxic
-            applyTimeout(proxy);
-            sleep("⏱ TIMEOUT ACTIVE", rand());
-            clear(proxy);
+            sleep("KEEP UP", rand());
 
-            // 3. LATENCY + JITTER
-            applyLatency(proxy);
-            sleep("🟡 LATENCY", rand());
-            clear(proxy);
-
-            // 4. SLICER (packet fragmentation)
-            applySlicer(proxy);
-            sleep("🍰 SLICER ACTIVE", rand());
-            clear(proxy);
-
-            // 5. BANDWIDTH LIMIT
-            applyBandwidth(proxy);
-            sleep("🟠 BANDWIDTH LIMIT", rand());
-            clear(proxy);
-
-            // 6. RESET PEER (connection reset chaos)
-            applyResetPeer(proxy);
+            proxy.toxics().resetPeer("reset-peer-toxic", ToxicDirection.DOWNSTREAM, rand(10,1_000));
             sleep("💥 RESET PEER ACTIVE", rand());
             clear(proxy);
 
-            // 7. RECOVERY
-            System.out.println("🟢 CLEAN STATE RESTORED");
-            clear(proxy);
-            Thread.sleep(rand());
+            sleep("KEEP UP", rand());
         }
     }
 
@@ -117,6 +100,10 @@ public class ToxiProxyStartChaos {
     }
 
     private static long rand() {
-        return ThreadLocalRandom.current().nextLong(2000, 5000);
+        return rand(2000, 5000);
+    }
+
+    private static long rand(long startInclusive, long endExclusive) {
+        return ThreadLocalRandom.current().nextLong(startInclusive, endExclusive);
     }
 }

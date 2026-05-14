@@ -15,7 +15,7 @@ public class IndexingJmsWriter implements ItemWriter<IndexEvent> {
     @Override
     public void write(Chunk<? extends IndexEvent> chunk) {
         for (IndexEvent indexEvent : chunk) {
-            jmsTemplate.convertAndSend(indexEvent.toString());
+            jmsTemplate.convertAndSend(indexEvent.uuid());
         }
         log.info("Sent events {}", chunk.size());
     }
